@@ -1,0 +1,105 @@
+
+<div class="logout_btn col-md-12">
+  <i class="fa fa-power-off" aria-hidden="true"></i>
+</div>
+<!-- <div class="row">
+    <div class="col-md-6">
+        <a href="#" style="color:white;" class="btn btn-warning pull-right" routerLink="/">Find Chair</a>
+    </div>
+    <div class="col-md-6">
+        <button (click)="refreshResults()" style="color:white;" class="btn btn-info pull-right" >Refresh Results</button>
+    </div>
+  </div> -->
+
+
+  <section class="chair_details">
+    <div class="container">
+      <div class="row">
+
+      <div class="col-md-12 col-12">
+        <button class="report_button_top" routerLink="/"><a href="#" style="color:white;">Find Chair</a> <i class="fa fa-flag" aria-hidden="true"></i></button>
+      </div>
+
+
+      <div class="col-md-12">
+        <h4 style="font-weight: bold; text-align: center;">Select your class to report</h4>
+      </div>
+
+        <div class="col-md-6 col-10">						
+          <select class="form-control" id="exampleSelect1">
+            <option value="" disabled="" selected="">Select Your Location</option>
+            <option (click)="getKlasatFromFloor(1, false)" value="">Floor 1</option>
+            <option (click)="getKlasatFromFloor(2, false)" value="">Floor 2</option>
+            <option (click)="getKlasatFromFloor(3, false)" value="">Floor 3</option>
+            <option (click)="getKlasatFromFloor(4, false)" value="">Floor 4</option>
+          </select>
+        </div>
+      <div class="col-md-6 col-2" style="text-align: center;">
+        <button (click)="refreshResults()" style="color:white;" class="refresh_button pull-right" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      </div>
+        <div class="col-md-6 col-12">
+          <div class="details_class_card" *ngFor="let klasa of klasat; let i = index;">
+            <table style="width:100%">
+              <tr>
+                <th><p>Class Name: {{klasa.name}}, Floor: {{klasa.floor}}</p></th>
+                <th><a href="#" (click)="showKlasen(klasa.id)" data-toggle="modal" data-target="#exampleModal2"><p class="hvr-underline-from-left">Details/Report:</p></a></th>
+              </tr>
+              <tr>
+                <td><p>Free Chairs:</p></td>
+                <td><p>{{klasa.free_chairs}}</p></td>
+              </tr>
+            </table>
+            <div class="col-md-12 col-12">
+              <div class="row">
+                <button (click)="takeChair(klasa.id)" *ngIf="klasa.free_chairs" class="btn hvr-underline-from-left">Take Chair</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div *ngIf="showClass && chosenKlasa" class="modal-content details_popup">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Class Name: {{chosenKlasa.name}} - Floor {{chosenKlasa.floor}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form novalidate #f="ngForm" (ngSubmit)="reportChairs(f)">	 
+                  <input type="" name="chairs" 
+                  placeholder="Report the number of chairs"
+                  [(ngModel)]="reportChairsData.chairs"
+                     #chairNumber="ngModel"
+                     required>      	
+                <button class="btn hvr-underline-from-left" [disabled]="!f.valid">Report Current Chairs</button>
+              </form>
+                <br>
+                <br>
+                <button *ngIf="chosenKlasa.free_chairs" class="btn hvr-underline-from-left" (click)="takeChair(chosenKlasa.id)">
+                  Take Chair
+                </button>
+                <h2>Class History:</h2>
+  
+                <div *ngIf="chosenKlasa.history">
+                    <div *ngFor="let history of chosenKlasa.history" class="more_details_body">
+                        <div *ngIf="history.took_chair">
+                            <span class="bg bg-danger" style="color:white;">{{history.user.email}} took a chair on {{history.created_at}}.</span>
+                        </div>
+      
+                        <div *ngIf="history.reported_chairs">
+                            <span class="bg bg-success" style="color:white;">{{history.user.email}} reported {{history.reported_chairs}} chairs on {{history.created_at}}.</span>
+                        </div>
+                  </div>
+                </div>
+  
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>

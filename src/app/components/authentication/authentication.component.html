@@ -1,0 +1,117 @@
+<div *ngIf="!isLogged">
+  <section class="top_section_about">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 header_btn">
+          <!-- Button trigger modal -->
+          <button type="button" class="login_button hvr-underline-from-left" data-toggle="modal" data-target="#exampleModal">
+            Login
+          </button><br>
+
+          <button type="button" class="signin_button hvr-underline-from-left" data-toggle="modal" data-target="#exampleModal1">
+            Register
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Login and Signup popup -->
+
+  <!-- Modal Login-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content login_modal">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form novalidate #form="ngForm" (ngSubmit)="onLogin(form)">
+          <div class="modal-body">
+              <p style="color:white;">{{loginResponse}}</p>
+            <input type="" placeholder="Email"
+                   [(ngModel)]="loginData.email"
+                   name="email"
+                   #loginEmail="ngModel"
+                   minlength="10"
+                   required>
+            <!--&lt;!&ndash;# inputit ja shtum nje id #clientFirstName="ngModel" , dhe e kqyrim nese ky input ka errore specifike  &ndash;&gt;-->
+            <small *ngIf="loginEmail.errors?.required && loginEmail.touched" class="alert alert-danger">
+            Email is required
+            </small>
+            <!--&lt;!&ndash; Tash e kqyrim per minlength  &ndash;&gt;-->
+            <small *ngIf="loginEmail.errors?.minlength && loginEmail.touched" class="alert alert-danger">
+            Email Must be at least 10 characters
+            </small>
+
+
+            <input type="password" placeholder="Password"
+                   [(ngModel)]="loginData.password"
+                   name="password"
+                   #loginPassword="ngModel"
+                   minlength="6"
+                   required>
+            <!--&lt;!&ndash;# inputit ja shtum nje id #clientFirstName="ngModel" , dhe e kqyrim nese ky input ka errore specifike  &ndash;&gt;-->
+            <!--<small *ngIf="loginEmail.errors?.required && loginEmail.touched" class="alert alert-danger">-->
+            <!--Password is required-->
+            <!--</small>-->
+            <!--&lt;!&ndash; Tash e kqyrim per minlength  &ndash;&gt;-->
+            <!--<small *ngIf="loginEmail.errors?.minlength && loginEmail.touched" class="alert alert-danger">-->
+            <!--Password Must be at least 12 characters-->
+            <!--</small>-->
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="submit_btn hvr-underline-from-left">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal To Register Accound -->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content login_modal">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form novalidate #f="ngForm" (ngSubmit)="onRegistration(f)">
+        <div class="modal-body">
+          <p style="color:white;">{{registrationResponse}}</p>
+              <input type="email" placeholder="Email"
+              [(ngModel)]="registrationData.email"
+              name="email"
+              #registrationEmail="ngModel"
+              minlength="10"
+              required>
+              <input type="password" placeholder="Password"
+              [(ngModel)]="registrationData.password"
+              name="password"
+              #registrationPassword="ngModel"
+              minlength="6"
+              required>
+              <input type="password" placeholder="Password Confirmation"
+              [(ngModel)]="registrationData.password_confirmation"
+              name="password_confirmation"
+              #registrationPasswordConfirmation="ngModel"
+              minlength="6"
+              required>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="!f.valid" class="submit_btn hvr-underline-from-left">Submit</button>
+        </div>
+
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div>
